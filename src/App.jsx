@@ -9,7 +9,10 @@ export default function App() {
   const [showAdmin, setShowAdmin] = useState(false);
   const [adminGuest, setAdminGuest] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const audioRef = useRef(null);
+
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsy6HJ6MMRoa5TMnKeEDBb-AjjN_RiX-JeGws_BhM4vZ-JDxcn9PSVMbmXjaL6pte9/exec';
 
   const headerPhotos = [
     'https://images.unsplash.com/photo-1519741497674-611481863552?w=600',
@@ -106,24 +109,39 @@ export default function App() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!formData.name.trim()) {
       alert('Vui lòng nhập họ tên!');
       return;
     }
     
-    const message = `
-📨 XÁC NHẬN THAM DỰ MỚI
-👤 Họ tên: ${formData.name}
-✅ Tham dự: ${formData.attending === 'yes' ? 'Có, sẽ đến' : 'Không thể tham dự'}
-💌 Lời chúc: ${formData.message || '(Không có)'}
-    `.trim();
+    setIsSubmitting(true);
 
-    console.log('Thông tin xác nhận:', message);
-    alert(`Cảm ơn ${formData.name}!\n\nChúng tôi đã ghi nhận xác nhận của bạn. ${formData.attending === 'yes' ? 'Rất mong được gặp bạn!' : 'Rất tiếc vì bạn không thể đến.'}`);
-    
-    setShowRSVP(false);
-    setFormData({ name: guestName || '', attending: 'yes', message: '' });
+    try {
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          attending: formData.attending,
+          message: formData.message
+        })
+      });
+
+      // no-cors mode không trả về response, nên giả định thành công
+      alert(`Cảm ơn ${formData.name}!\n\nChúng tôi đã ghi nhận xác nhận của bạn. ${formData.attending === 'yes' ? 'Rất mong được gặp bạn!' : 'Rất tiếc vì bạn không thể đến.'}`);
+      
+      setShowRSVP(false);
+      setFormData({ name: guestName || '', attending: 'yes', message: '' });
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Đã xảy ra lỗi khi gửi. Vui lòng thử lại!');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const applyGuestName = () => {
@@ -313,19 +331,19 @@ export default function App() {
               </h2>
               
               <div className="text-center mb-6">
-                <div className="min-h-[2rem] flex items-center justify-center mb-3">
+                <div className="min-h-[3rem] flex items-center justify-center mb-4">
                   {guestName ? (
-                    <div className="text-rose-700 font-semibold text-xl elegant-text">
+                    <div className="text-rose-700 font-semibold text-4xl" style={{fontFamily: 'Dancing Script, cursive'}}>
                       {guestName}
                     </div>
                   ) : (
-                    <div className="text-gray-300 text-lg elegant-text italic">
+                    <div className="text-gray-300 text-2xl italic" style={{fontFamily: 'Dancing Script, cursive'}}>
                       Tên khách mời
                     </div>
                   )}
                 </div>
                 <div className="flex justify-center">
-                  <div className="border-t-2 border-rose-400" style={{width: '280px'}}></div>
+                  <div className="border-t-2 border-rose-400" style={{width: '320px'}}></div>
                 </div>
               </div>
               
@@ -464,9 +482,10 @@ export default function App() {
                   
                   <button
                     onClick={handleSubmit}
-                    className="w-full bg-gradient-to-r from-rose-500 to-pink-600 text-white py-4 rounded-lg font-semibold hover:shadow-lg transition-all hover:scale-105 text-lg"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-rose-500 to-pink-600 text-white py-4 rounded-lg font-semibold hover:shadow-lg transition-all hover:scale-105 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Gửi xác nhận
+                    {isSubmitting ? 'Đang gửi...' : 'Gửi xác nhận'}
                   </button>
                 </div>
               </div>
