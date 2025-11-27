@@ -10,6 +10,8 @@ export default function App() {
   const [adminGuest, setAdminGuest] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [wishes, setWishes] = useState([]);
+  const [isLoadingWishes, setIsLoadingWishes] = useState(true);
   const audioRef = useRef(null);
 
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsy6HJ6MMRoa5TMnKeEDBb-AjjN_RiX-JeGws_BhM4vZ-JDxcn9PSVMbmXjaL6pte9/exec';
@@ -55,6 +57,23 @@ export default function App() {
       setGuestName(decodeURIComponent(guest));
       setFormData(prev => ({ ...prev, name: decodeURIComponent(guest) }));
     }
+
+    // Load wishes from Google Sheets
+    const loadWishes = async () => {
+      try {
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getWishes`);
+        const data = await response.json();
+        if (data.wishes) {
+          setWishes(data.wishes);
+        }
+      } catch (error) {
+        console.error('Error loading wishes:', error);
+      } finally {
+        setIsLoadingWishes(false);
+      }
+    };
+
+    loadWishes();
 
     const timer = setInterval(() => {
       const now = new Date();
@@ -133,6 +152,15 @@ export default function App() {
 
       // no-cors mode không trả về response, nên giả định thành công
       alert(`Cảm ơn ${formData.name}!\n\nChúng tôi đã ghi nhận xác nhận của bạn. ${formData.attending === 'yes' ? 'Rất mong được gặp bạn!' : 'Rất tiếc vì bạn không thể đến.'}`);
+      
+      // Add new wish to display immediately
+      if (formData.message.trim()) {
+        setWishes(prev => [{
+          name: formData.name,
+          message: formData.message,
+          timestamp: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
+        }, ...prev]);
+      }
       
       setShowRSVP(false);
       setFormData({ name: guestName || '', attending: 'yes', message: '' });
@@ -578,6 +606,47 @@ export default function App() {
                 Bùi Hữu Hoàng & Tạ Thị Thanh Uyên
               </p>
             </div>
+
+            {wishes.length > 0 && (
+              <div className="mt-16 animate-on-scroll">
+                <h2 className="text-2xl font-serif text-center mb-8 text-gray-800 elegant-text">
+                  Lời chúc từ bạn bè
+                </h2>
+                <div className="space-y-4 max-w-3xl mx-auto">
+                  {wishes.map((wish, index) => (
+                    <div
+                      key={index}
+                      className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-xl p-6 border border-rose-200 shadow-sm hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0">
+                          <div className="w-12 h-12 rounded-full bg-rose-500 flex items-center justify-center text-white font-semibold text-lg">
+                            {wish.name.charAt(0).toUpperCase()}
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="font-semibold text-gray-800 text-lg" style={{fontFamily: 'Dancing Script, cursive'}}>
+                              {wish.name}
+                            </h3>
+                            <span className="text-xs text-gray-500">{wish.timestamp}</span>
+                          </div>
+                          <p className="text-gray-700 leading-relaxed italic elegant-text">
+                            "{wish.message}"
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isLoadingWishes && (
+              <div className="mt-16 text-center text-gray-500">
+                <p className="elegant-text">Đang tải lời chúc...</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
