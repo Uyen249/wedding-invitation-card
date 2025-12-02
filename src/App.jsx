@@ -122,6 +122,7 @@ export default function App() {
 
   const toggleMusic = () => {
     if (audioRef.current) {
+       audioRef.current.volume = 0.2; // đặt âm lượng = 20%
       if (isPlaying) {
         audioRef.current.pause();
       } else {
@@ -768,5 +769,6 @@ export default function App() {
     </div>
   );
 }
+
 
 
