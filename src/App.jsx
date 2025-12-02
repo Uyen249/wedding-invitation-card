@@ -111,16 +111,7 @@ export default function App() {
     );
 
     const elements = document.querySelectorAll('.animate-on-scroll');
-    elements.forEach((el) => observer.observe(el));
-
-    // Auto play music on load
-    if (audioRef.current) {
-      audioRef.current.volume = 0.2; // 20% volume
-      audioRef.current.play().catch(() => {
-        // Browsers may block autoplay, that's ok
-      });
-      setIsPlaying(true);
-    }
+    elements.forEach((el) => observer.observe(el))
 
     return () => {
       clearInterval(timer);
@@ -777,4 +768,5 @@ export default function App() {
     </div>
   );
 }
+
 
