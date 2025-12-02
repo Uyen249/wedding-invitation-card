@@ -12,7 +12,10 @@ export default function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [wishes, setWishes] = useState([]);
   const [isLoadingWishes, setIsLoadingWishes] = useState(true);
+  const [showQR, setShowQR] = useState(false);
+  const [hearts, setHearts] = useState([]);
   const audioRef = useRef(null);
+  const heartIdCounter = useRef(0);
 
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsy6HJ6MMRoa5TMnKeEDBb-AjjN_RiX-JeGws_BhM4vZ-JDxcn9PSVMbmXjaL6pte9/exec';
 
@@ -110,6 +113,15 @@ export default function App() {
     const elements = document.querySelectorAll('.animate-on-scroll');
     elements.forEach((el) => observer.observe(el));
 
+    // Auto play music on load
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2; // 20% volume
+      audioRef.current.play().catch(() => {
+        // Browsers may block autoplay, that's ok
+      });
+      setIsPlaying(true);
+    }
+
     return () => {
       clearInterval(timer);
       window.removeEventListener('keydown', handleKeyPress);
@@ -126,6 +138,28 @@ export default function App() {
       }
       setIsPlaying(!isPlaying);
     }
+  };
+
+  const createHeart = (e) => {
+    const x = window.innerWidth / 2;
+    const y = window.innerHeight / 2;
+    
+    const id = heartIdCounter.current++;
+    const newHeart = {
+      id,
+      x,
+      y,
+      left: Math.random() * 100 - 50,
+      duration: 2 + Math.random() * 2,
+      size: 20 + Math.random() * 20,
+      delay: Math.random() * 0.5
+    };
+    
+    setHearts(prev => [...prev, newHeart]);
+    
+    setTimeout(() => {
+      setHearts(prev => prev.filter(h => h.id !== id));
+    }, (newHeart.duration + newHeart.delay) * 1000);
   };
 
   const handleSubmit = async () => {
@@ -283,18 +317,47 @@ export default function App() {
         .animate-in {
           animation: fadeInUp 0.8s ease-out forwards;
         }
+        
+        .heart-float {
+          position: absolute;
+          pointer-events: none;
+          font-size: 30px;
+          animation: floatUp 3s ease-out forwards;
+          z-index: 1000;
+        }
+        
+        @keyframes floatUp {
+          0% {
+            opacity: 1;
+            transform: translateY(0) translateX(0) rotate(0deg);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-200px) translateX(var(--float-x, 0px)) rotate(360deg);
+          }
+        }
       `}</style>
 
       <audio ref={audioRef} loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg" />
+        <source src="https://drive.google.com/uc?export=download&id=18wOgKKqZ9zfi8kMPIwdi7wBYQ2HFrpWZ" type="audio/mpeg" />
       </audio>
 
-      <button
-        onClick={toggleMusic}
-        className="fixed bottom-6 right-6 z-50 bg-rose-500 text-white p-4 rounded-full shadow-lg hover:bg-rose-600 transition-all hover:scale-110"
-      >
-        {isPlaying ? <Volume2 className="w-6 h-6" /> : <VolumeX className="w-6 h-6" />}
-      </button>
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <button
+          onClick={createHeart}
+          className="bg-rose-500 text-white p-4 rounded-full shadow-lg hover:bg-rose-600 transition-all hover:scale-110"
+          title="Thả tim"
+        >
+          <Heart className="w-6 h-6 fill-current" />
+        </button>
+        <button
+          onClick={toggleMusic}
+          className="bg-rose-500 text-white p-4 rounded-full shadow-lg hover:bg-rose-600 transition-all hover:scale-110"
+          title={isPlaying ? "Tắt nhạc" : "Bật nhạc"}
+        >
+          {isPlaying ? <Volume2 className="w-6 h-6" /> : <VolumeX className="w-6 h-6" />}
+        </button>
+      </div>
 
       {showAdmin && (
         <div className="fixed top-4 right-4 z-50 bg-white p-4 rounded-lg shadow-xl border-2 border-rose-300">
@@ -316,7 +379,27 @@ export default function App() {
       )}
 
       <div className="max-w-4xl mx-auto p-4">
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden relative">
+          {/* Floating hearts - fixed position */}
+          <div className="fixed inset-0 pointer-events-none z-50">
+            {hearts.map(heart => (
+              <div
+                key={heart.id}
+                className="heart-float absolute"
+                style={{
+                  left: `${heart.x}px`,
+                  top: `${heart.y}px`,
+                  fontSize: `${heart.size}px`,
+                  animationDuration: `${heart.duration}s`,
+                  animationDelay: `${heart.delay}s`,
+                  '--float-x': `${heart.left}px`
+                }}
+              >
+                ❤️
+              </div>
+            ))}
+          </div>
+          
           <div className="relative h-96 header-bg flex items-center justify-center">
             <div className="header-photo-grid">
               {headerPhotos.map((photo, index) => (
@@ -353,10 +436,10 @@ export default function App() {
               </p>
             </div>
 
-            <div className="bg-gradient-to-r from-rose-100 to-pink-100 rounded-2xl p-8 mb-12 border-2 border-rose-200 animate-on-scroll">
-              <h2 className="text-2xl font-semibold text-center text-rose-800 elegant-text mb-4">
+            <div className="rounded-2xl p-8 mb-12 shadow-lg border border-gray-200 animate-on-scroll max-w-lg mx-auto" style={{backgroundColor: '#fdf2f6'}}>
+              <h3 className="text-2xl font-semibold text-center text-gray-800 elegant-text mb-6">
                 TRÂN TRỌNG KÍNH MỜI
-              </h2>
+              </h3>
               
               <div className="text-center mb-6">
                 <div className="min-h-[3rem] flex items-center justify-center mb-4">
@@ -413,31 +496,40 @@ export default function App() {
               </a>
             </div>
 
-            <div className="paper-texture rounded-2xl p-8 mb-12 shadow-lg border border-gray-200 animate-on-scroll max-w-lg mx-auto">
-              <h3 className="text-2xl font-semibold text-center text-gray-800 elegant-text mb-4 pb-3 border-b-2 border-rose-400">
+            <div className="rounded-2xl p-8 mb-12 animate-on-scroll max-w-md mx-auto">
+              <h3 className="text-2xl font-semibold text-center text-gray-800 elegant-text mb-8">
                 LỄ THÀNH HÔN
               </h3>
               
-              <div className="bg-white rounded-xl overflow-hidden mb-6 shadow-md">
-                <img 
-                  src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600" 
-                  alt="Ceremony"
-                  className="w-full h-64 object-cover"
-                />
-              </div>
-              
-              <div className="text-center mb-6">
-                <p className="text-xl font-bold text-gray-800 mb-2" style={{fontFamily: 'Courier New, monospace'}}>
-                  10:30 28/12/2025
-                </p>
-                <p className="text-sm text-gray-600">(Tức ngày 09 tháng 11 năm Ất Tỵ)</p>
-              </div>
-              
-              <div className="text-center mb-6">
-                <p className="text-base text-gray-700 leading-relaxed elegant-text">
-                  Nhà hàng Sông Hồng Thủ Đô<br/>
-                  Tứ Xã - Lâm Thao - Phú Thọ
-                </p>
+              {/* Polaroid frame */}
+              <div className="bg-white p-4 shadow-2xl rounded-sm">
+                {/* Ảnh */}
+                <div className="bg-gray-100 overflow-hidden mb-4">
+                  <img 
+                    src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600" 
+                    alt="Ceremony"
+                    className="w-full aspect-square object-cover"
+                  />
+                </div>
+                
+                {/* Phần trắng bên dưới - thông tin */}
+                <div className="pt-4 pb-6 px-2 space-y-3">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-rose-700 mb-1" style={{fontFamily: 'Courier New, monospace'}}>
+                      10:30 - 28/12/2025
+                    </p>
+                    <p className="text-xs text-gray-600">(Ngày 09 tháng 11 năm Ất Tỵ)</p>
+                  </div>
+                  
+                  <div className="text-center border-t border-gray-200 pt-3">
+                    <p className="text-lg font-bold text-gray-800 elegant-text">
+                      Nhà hàng Sông Hồng Thủ Đô
+                    </p>
+                    <p className="text-sm text-gray-600 elegant-text">
+                      Tứ Xã - Lâm Thao - Phú Thọ
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -456,11 +548,43 @@ export default function App() {
             <div className="text-center mb-12 animate-on-scroll">
               <button
                 onClick={() => setShowRSVP(!showRSVP)}
-                className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg transition-all hover:scale-105"
+                className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg transition-all hover:scale-105 mr-4"
               >
                 {showRSVP ? 'Đóng form' : 'Xác nhận tham dự'}
               </button>
+              <button
+                onClick={() => setShowQR(!showQR)}
+                className="bg-gradient-to-r from-amber-500 to-yellow-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:shadow-lg transition-all hover:scale-105"
+              >
+                <Gift className="inline-block w-5 h-5 mr-2" />
+                Mừng cưới
+              </button>
             </div>
+
+            {showQR && (
+              <div className="mb-12 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl p-8 border-2 border-amber-200 animate-on-scroll">
+                <h3 className="text-2xl font-semibold mb-6 text-center text-amber-800 elegant-text">
+                  Thông tin mừng cưới
+                </h3>
+                <div className="max-w-md mx-auto">
+                  <div className="text-center bg-white rounded-xl p-6 shadow-md">
+                    <div className="bg-gray-100 p-4 rounded-lg mb-4 inline-block">
+                      <img 
+                        src="https://via.placeholder.com/300x300.png?text=QR+Code+Mung+Cuoi" 
+                        alt="QR Mừng cưới"
+                        className="w-64 h-64 object-cover"
+                      />
+                    </div>
+                    <p className="text-sm text-gray-600 mt-4 italic elegant-text">
+                      Quét mã QR để gửi lời chúc mừng 💝
+                    </p>
+                    <p className="text-xs text-gray-500 mt-2 elegant-text">
+                      Sự hiện diện của bạn là món quà ý nghĩa nhất!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {showRSVP && (
               <div className="mb-12 bg-rose-50 rounded-2xl p-8 border-2 border-rose-200">
