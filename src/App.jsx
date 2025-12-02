@@ -727,7 +727,7 @@ export default function App() {
                 Sự hiện diện của bạn là niềm vinh hạnh của chúng tôi
               </p>
               <p className="text-xs mt-2 elegant-text">
-                Bùi Hữu Hoàng & Tạ Thị Thanh Uyên
+                Hữu Hoàng ❤️ Thanh Uyên
               </p>
             </div>
 
@@ -777,3 +777,4 @@ export default function App() {
     </div>
   );
 }
+
