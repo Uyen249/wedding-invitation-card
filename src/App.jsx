@@ -339,7 +339,7 @@ export default function App() {
       `}</style>
 
       <audio ref={audioRef} loop>
-        <source src="https://drive.google.com/uc?export=download&id=18wOgKKqZ9zfi8kMPIwdi7wBYQ2HFrpWZ" type="audio/mpeg" />
+        <source src="/music.mp3" type="audio/mpeg" />
       </audio>
 
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
