@@ -629,9 +629,6 @@ export default function App() {
                         className="w-64 h-64 object-cover"
                       />
                     </div>
-                    <p className="text-sm text-gray-600 mt-4 italic elegant-text">
-                      Quét mã QR để gửi lời chúc mừng 💝
-                    </p>
                     <p className="text-xs text-gray-500 mt-2 elegant-text">
                       Sự hiện diện của bạn là món quà ý nghĩa nhất!
                     </p>
@@ -831,6 +828,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 
