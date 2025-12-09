@@ -616,7 +616,7 @@ export default function App() {
             </div>
 
             {showQR && (
-              <div className="mb-12 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl p-8 border-2 border-amber-200 animate-on-scroll">
+              <div className="mb-12 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl p-8 border-2 border-amber-200">
                 <h3 className="text-2xl font-semibold mb-6 text-center text-amber-800 elegant-text">
                   Thông tin mừng cưới
                 </h3>
@@ -624,7 +624,7 @@ export default function App() {
                   <div className="text-center bg-white rounded-xl p-6 shadow-md">
                     <div className="bg-gray-100 p-4 rounded-lg mb-4 inline-block">
                       <img 
-                        src="https://via.placeholder.com/300x300.png?text=QR+Code+Mung+Cuoi" 
+                        src="https://i.ibb.co/VWV3rYYW/6aa48ec26d1b91587e93e5c17640476b.jpg" 
                         alt="QR Mừng cưới"
                         className="w-64 h-64 object-cover"
                       />
@@ -831,6 +831,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 
