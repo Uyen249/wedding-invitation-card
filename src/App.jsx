@@ -242,7 +242,7 @@ export default function App() {
           position: absolute;
           inset: 0;
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           overflow: hidden;
         }
         
@@ -269,13 +269,8 @@ export default function App() {
         }
         
         .header-photo:nth-child(3) {
-          transform: rotate(-1deg);
+          transform: rotate(-1.5deg);
           margin-top: 5px;
-        }
-        
-        .header-photo:nth-child(4) {
-          transform: rotate(2deg);
-          margin-top: -5px;
         }
         
         .header-photo:hover img {
@@ -828,6 +823,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 
