@@ -20,7 +20,7 @@ export default function App() {
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsy6HJ6MMRoa5TMnKeEDBb-AjjN_RiX-JeGws_BhM4vZ-JDxcn9PSVMbmXjaL6pte9/exec';
 
   const headerPhotos = [
-    'https://drive.google.com/uc?export=view&id=1MfkhDnv0iM8-ModeZuIOLb3Ky1vcnvv0',
+    'https://i.ibb.co/zVL0qRP6/DSC02972.jpg',
     'https://drive.google.com/uc?export=view&id=1D8nRRIDNtZQbzuoY4ON8cvTb4vXCCRHJ',
     'https://drive.google.com/uc?export=view&id=1Y_cMVjKWFNi7PBI1JpyuIyUvmLkwJetN',
     'https://drive.google.com/uc?export=view&id=1VUvDQI-84SiaNE30iz2l8g5qBL2EyBdC'
@@ -769,6 +769,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 
