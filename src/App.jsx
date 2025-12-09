@@ -428,34 +428,61 @@ export default function App() {
               </p>
             </div>
 
-            {/* GIA ĐÌNH HAI BÊN */}
+{/* GIA ĐÌNH HAI BÊN */}
 <div className="text-center mt-10 mb-12">
-  <h3 className="text-3xl font-semibold elegant-text text-gray-800 mb-6">
-    Gia đình hai bên
+  <h3
+    className="text-3xl font-extrabold elegant-text mb-6 tracking-wide"
+    style={{ color: "#8B0F2F" }}
+  >
+    GIA ĐÌNH HAI BÊN
   </h3>
 
   <div className="flex flex-col md:flex-row items-center justify-center gap-10 mt-6">
 
-    {/* Nhà gái */}
+    {/* Nhà trai */}
     <div className="text-center">
-      <p className="text-2xl font-semibold elegant-text mb-2">Nhà gái</p>
-      <p className="text-lg elegant-text text-gray-700">Ông: <span className="font-medium">Tạ Quang Huy</span></p>
-      <p className="text-lg elegant-text text-gray-700">Bà: <span className="font-medium">Dương Thị Thúy</span></p>
+      <p
+        className="text-2xl font-bold elegant-text mb-3 tracking-wide"
+        style={{ color: "#8B0F2F" }}
+      >
+        NHÀ TRAI
+      </p>
+
+      <p className="text-lg elegant-text text-gray-700">
+        Ông: <span className="font-semibold">Bùi Hữu Cao</span>
+      </p>
+
+      <p className="text-lg elegant-text text-gray-700">
+        Bà: <span className="font-semibold">Nguyễn Thị Minh Ngọc</span>
+      </p>
+
       <p className="text-lg elegant-text text-gray-700 mt-2">
-        Cô dâu: <span className="font-semibold">Tạ Thị Thanh Uyên</span>
+        Chú rể: <span className="font-extrabold">Bùi Hữu Hoàng</span>
       </p>
     </div>
 
     {/* Icon trái tim */}
-    <Heart className="w-10 h-10 text-rose-500" />
+    <Heart className="w-10 h-10" style={{ color: "#8B0F2F" }} />
 
-    {/* Nhà trai */}
+    {/* Nhà gái */}
     <div className="text-center">
-      <p className="text-2xl font-semibold elegant-text mb-2">Nhà trai</p>
-      <p className="text-lg elegant-text text-gray-700">Ông: <span className="font-medium">Bùi Hữu Cao</span></p>
-      <p className="text-lg elegant-text text-gray-700">Bà: <span className="font-medium">Nguyễn Thị Minh Ngọc</span></p>
+      <p
+        className="text-2xl font-bold elegant-text mb-3 tracking-wide"
+        style={{ color: "#8B0F2F" }}
+      >
+        NHÀ GÁI
+      </p>
+
+      <p className="text-lg elegant-text text-gray-700">
+        Ông: <span className="font-semibold">Tạ Quang Huy</span>
+      </p>
+
+      <p className="text-lg elegant-text text-gray-700">
+        Bà: <span className="font-semibold">Dương Thị Thúy</span>
+      </p>
+
       <p className="text-lg elegant-text text-gray-700 mt-2">
-        Chú rể: <span className="font-semibold">Bùi Hữu Hoàng</span>
+        Cô dâu: <span className="font-extrabold">Tạ Thị Thanh Uyên</span>
       </p>
     </div>
 
@@ -804,6 +831,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 
