@@ -678,7 +678,7 @@ export default function App() {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       rows={4}
-                      placeholder="Gửi lời chúc mừng hạnh phúc đến đôi uyên ương..."
+                      placeholder="Gửi lời chúc mừng hạnh phúc đến đôi Hoàng và Uyên..."
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 resize-none text-base bg-white"
                     ></textarea>
                   </div>
@@ -828,6 +828,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 
