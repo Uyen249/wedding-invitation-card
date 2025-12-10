@@ -759,23 +759,32 @@ export default function App() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl p-8 mb-12 animate-on-scroll">
-              <h2 className="text-2xl font-serif text-center mb-6 text-rose-800 elegant-text">
-                Đếm ngược đến ngày trọng đại
-              </h2>
-              <div className="grid grid-cols-4 gap-4">
-                {Object.entries(timeLeft).map(([unit, value]) => (
-                  <div key={unit} className="text-center">
-                    <div className="bg-white rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow">
-                      <div className="text-3xl font-bold text-rose-600">{value}</div>
-                      <div className="text-sm text-gray-600 mt-1 capitalize">
+             <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl p-4 lg:p-12 mb-12 animate-on-scroll">
+    {/* Tiêu đề */}
+    <h2 className="text-xl lg:text-3xl font-serif text-center mb-8 text-rose-800 elegant-text">
+        Đếm ngược đến ngày trọng đại
+    </h2>
+    
+    {/* SỬA: Tăng khoảng cách Grid lên gap-4 (mobile) và lg:gap-8 (desktop) */}
+    <div className="grid grid-cols-4 **gap-4 lg:gap-8**">
+        {Object.entries(timeLeft).map(([unit, value]) => (
+            <div key={unit} className="text-center">
+                <div className="bg-white rounded-xl p-3 lg:p-6 shadow-md hover:shadow-lg transition-shadow">
+                    
+                    {/* Chữ số */}
+                    <div className="text-xl lg:text-5xl font-bold text-rose-600">{value}</div>
+                    
+                    {/* Text mô tả */}
+                    <div className="text-xs lg:text-base text-gray-600 mt-1 capitalize">
                         {unit === 'days' ? 'Ngày' : unit === 'hours' ? 'Giờ' : unit === 'minutes' ? 'Phút' : 'Giây'}
-                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                </div>
             </div>
+        ))}
+    </div>
+    {/* Thêm khoảng trống dưới khối đếm ngược để cân bằng */}
+    <div className="mt-8"></div> 
+</div>
 
             <div className="mt-12 text-center text-gray-600 animate-on-scroll">
               <Heart className="w-6 h-6 mx-auto mb-2 text-rose-500" />
@@ -833,6 +842,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 
