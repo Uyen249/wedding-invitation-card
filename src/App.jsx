@@ -54,7 +54,7 @@ const goToPrev = () => {
   const weddingDate = new Date('2025-12-28T11:00:00');
 
   const photos = [
-     'https://i.ibb.co/yFwy85Xg/DSC03017.jpg',
+    'https://i.ibb.co/yFwy85Xg/DSC03017.jpg',
     'https://i.ibb.co/5WzgRzW4/DSC03163.jpg',
     'https://i.ibb.co/hRR4Fj8t/DSC03281-1.jpg',
     'https://i.ibb.co/hJKpcrXv/DSC03090-1.jpg',
@@ -770,6 +770,7 @@ const goToPrev = () => {
         hasNext={photos.length > 1}
     />
 )}
+
             <div className="mb-12 animate-on-scroll">
               <h2 className="text-2xl font-serif text-center mb-6 text-gray-800 elegant-text">
                 Tháng 12 năm 2025
@@ -893,6 +894,7 @@ const goToPrev = () => {
     </div>
   );
 }
+
 
 
 
