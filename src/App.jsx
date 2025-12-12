@@ -73,7 +73,7 @@ const goToPrev = () => {
     'https://raw.githubusercontent.com/Uyen249/wedding-invitation-card/main/public/DSC03884.jpg',
     'https://raw.githubusercontent.com/Uyen249/wedding-invitation-card/main/public/DSC03896.jpg',
     'https://raw.githubusercontent.com/Uyen249/wedding-invitation-card/main/public/DSC03907.jpg',
-    'https://raw.githubusercontent.com/Uyen249/wedding-invitation-card/main/public/DSC03938.jpg',
+    'https://raw.githubusercontent.com/Uyen249/wedding-invitation-card/main/public/DSC03938.jpg'
 ];
 
   const calendarDays = () => {
@@ -896,6 +896,7 @@ const goToPrev = () => {
     </div>
   );
 }
+
 
 
 
