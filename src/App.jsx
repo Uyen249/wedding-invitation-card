@@ -15,6 +15,8 @@ export default function App() {
   const [isLoadingWishes, setIsLoadingWishes] = useState(true);
   const [showQR, setShowQR] = useState(false);
   const [hearts, setHearts] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const audioRef = useRef(null);
   const heartIdCounter = useRef(0);
 
@@ -894,6 +896,7 @@ const goToPrev = () => {
     </div>
   );
 }
+
 
 
 
