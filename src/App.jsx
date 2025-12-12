@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Heart, MapPin, Calendar, Clock, Gift, Volume2, VolumeX } from 'lucide-react';
+import PhotoModal from './components/PhotoModal';
 
 export default function App() {
   const [timeLeft, setTimeLeft] = useState({});
@@ -17,6 +18,31 @@ export default function App() {
   const audioRef = useRef(null);
   const heartIdCounter = useRef(0);
 
+    // Hàm mở modal khi bấm vào ảnh thumbnail
+const openModal = (index) => {
+  setCurrentPhotoIndex(index);
+  setIsModalOpen(true);
+};
+
+// Hàm đóng modal
+const closeModal = () => {
+  setIsModalOpen(false);
+};
+
+// Hàm chuyển sang ảnh tiếp theo
+const goToNext = () => {
+  setCurrentPhotoIndex((prevIndex) => 
+    (prevIndex + 1) % photos.length
+  );
+};
+
+// Hàm chuyển về ảnh trước đó
+const goToPrev = () => {
+  setCurrentPhotoIndex((prevIndex) => 
+    (prevIndex - 1 + photos.length) % photos.length
+  );
+};
+
   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsy6HJ6MMRoa5TMnKeEDBb-AjjN_RiX-JeGws_BhM4vZ-JDxcn9PSVMbmXjaL6pte9/exec';
 
   const headerPhotos = [
@@ -28,11 +54,23 @@ export default function App() {
   const weddingDate = new Date('2025-12-28T11:00:00');
 
   const photos = [
-    'https://i.ibb.co/yFwy85Xg/DSC03017.jpg',
-    'https://i.ibb.co/svqStNCw/DSC03588.jpg',
-    'https://i.ibb.co/6cTSYW6K/DSC03884.jpg',
+     'https://i.ibb.co/yFwy85Xg/DSC03017.jpg',
     'https://i.ibb.co/5WzgRzW4/DSC03163.jpg',
+    'https://i.ibb.co/hRR4Fj8t/DSC03281-1.jpg',
+    'https://i.ibb.co/hJKpcrXv/DSC03090-1.jpg',
+    'https://i.ibb.co/tMvLvKfX/DSC03047-1.jpg',
+    'https://i.ibb.co/xN3FZBq/DSC03063-1.jpg',
+    'https://i.ibb.co/svqStNCw/DSC03588.jpg',
     'https://i.ibb.co/fYCbsQqZ/DSC03386.jpg',
+    'https://i.ibb.co/rGcxnybj/DSC03636-1.jpg',
+    'https://i.ibb.co/qYh7VBNC/DSC03434-1.jpg',
+    'https://i.ibb.co/whcjs6tW/DSC03486-1.jpg',
+    'https://i.ibb.co/FL7SdVjx/DSC03731-1.jpg',
+    'https://i.ibb.co/6cTSYW6K/DSC03884.jpg',
+    'https://i.ibb.co/DfPkzn2S/DSC03841-1.jpg',
+    'https://i.ibb.co/3mQpf6j0/DSC03938-1.jpg',
+    'https://i.ibb.co/KjJ0n2Vw/DSC03896-2.jpg',
+    'https://i.ibb.co/bMtPZT5j/DSC03845-1.jpg',
     'https://i.ibb.co/zTZ7snSL/DSC03907.jpg'
   ];
 
@@ -700,25 +738,38 @@ export default function App() {
             )}
 
             <div className="mb-12 animate-on-scroll">
-              <h2 className="text-2xl font-serif text-center mb-6 text-gray-800 elegant-text">
-                Album Ảnh Cưới
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {photos.map((photo, index) => (
-                  <div
-                    key={index}
-                    className="aspect-square rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer"
-                  >
-                    <img
-                      src={photo}
-                      alt={`Wedding photo ${index + 1}`}
-                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-                ))}
-              </div>
+    <h2 className="text-2xl font-serif text-center mb-6 text-gray-800 elegant-text">
+        Album Ảnh Cưới
+    </h2>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {photos.map((photo, index) => (
+            <div
+                key={index}
+                className="aspect-square rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer"
+                onClick={() => openModal(index)} // <--- THÊM ONCLICK
+            >
+                <img
+                    src={photo}
+                    alt={`Wedding photo ${index + 1}`}
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                />
             </div>
+        ))}
+    </div>
+</div>
 
+{/* 👇 THÊM CONDITIONAL RENDERING CỦA MODAL NÀY VÀO ĐÂY 👇 */}
+{/* Component Modal/Lightbox (Chỉ hiển thị khi isModalOpen là true) */}
+{isModalOpen && (
+    <PhotoModal 
+        photoUrl={photos[currentPhotoIndex]}
+        onClose={closeModal}
+        onNext={goToNext}
+        onPrev={goToPrev}
+        hasPrev={photos.length > 1} 
+        hasNext={photos.length > 1}
+    />
+)}
             <div className="mb-12 animate-on-scroll">
               <h2 className="text-2xl font-serif text-center mb-6 text-gray-800 elegant-text">
                 Tháng 12 năm 2025
@@ -842,6 +893,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 
