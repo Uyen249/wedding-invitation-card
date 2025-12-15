@@ -45,7 +45,7 @@ const goToPrev = () => {
   );
 };
 
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsy6HJ6MMRoa5TMnKeEDBb-AjjN_RiX-JeGws_BhM4vZ-JDxcn9PSVMbmXjaL6pte9/exec';
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLLcBC4WtTZmMoNPqkGUC9bjdWdACCqbk-AlAE-KWIdEMlcAP9970TqEwV4SyQVgtY/exec';
 
   const headerPhotos = [
     'https://i.ibb.co/zVL0qRP6/DSC02972.jpg',
@@ -896,6 +896,7 @@ const goToPrev = () => {
     </div>
   );
 }
+
 
 
 
