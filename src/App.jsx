@@ -851,7 +851,7 @@ const goToPrev = () => {
             </div>
 
             {wishes.length > 0 && (
-              <div className="mt-16 animate-on-scroll">
+              <div className="mt-16">
                 <h2 className="text-2xl font-serif text-center mb-8 text-gray-800 elegant-text">
                   Lời chúc từ bạn bè
                 </h2>
@@ -896,6 +896,7 @@ const goToPrev = () => {
     </div>
   );
 }
+
 
 
 
